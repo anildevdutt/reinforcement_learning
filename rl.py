@@ -6,26 +6,28 @@ class RL:
     def __init__(self):
         self.gamma = 0.8    # discount factor
         self.epsilon = 0.99 # randomness
-        self.lr = 0.1       # learning rate
-        self.decay = 0.0025    # decay factor of randomness
-        self.episodes = 400 # number of episodes
+        self.lr = 0.05       # learning rate
+        self.decay = 0.00166    # decay factor of randomness
+        self.episodes = 600 # number of episodes
         self.episode = 0
         self.return_vals = []
         self.trajectory = []
-        
-        self.max_steps = 20
+
+        self.max_steps = 100
         self.state_action_values = []
-        
+
         self.environment = [
             [0, 0, 0, 0, 0],
             [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0],
             [0, 0, 1, 0, 2],
         ]
-        self.state = [2,0]
+        self.state = [4,0]
         self.max_steps = 20
         self.ini_state_action_values()
-        
-        
+
+
     # initilizing the Q table with 0s
     def ini_state_action_values(self):
         for i in range(len(self.environment)):
@@ -33,12 +35,12 @@ class RL:
             for j in range(len(self.environment[0])):
                 row.append([0, 0, 0, 0])
             self.state_action_values.append(row)
-    
+
     # trajectory => [state, action. reward, next_state, return]
     # this function updates the return value inplace
     # using formula Gt = r_t + gamma*(r_t+1) + gamma^2*(r_t+2) + gamme^3*(r_t+3) ... 
     def gt(self, trajectory):
-        
+
         # calculating the return value of last item
         trajectory[len(trajectory)-1]["return"] = trajectory[len(trajectory)-1]["reward"]
 
@@ -106,7 +108,7 @@ class RL:
             return False
         step = 0
         done = False
-        self.state = [2,0]
+        self.state = [4,0]
         trajectory = []
         print("Episode:", self.episode, "epsilon:", self.epsilon)
         
